@@ -27,19 +27,16 @@ async def prompt_handler(message: types.Message, state: FSMContext):
 
     ret = await message.answer(text="Ожидаем генерацию...")
 
-    try:
-        result = generate_pic(prompt, data['model'])
-    except Exception as e:
-        await bot.delete_message(chat_id=message.chat.id, message_id=ret.message_id)
-        await bot.send_message(message.from_user.id, text="Для продолжения генерации выберете модель", reply_markup=GENERATION_MENU)
-        await state.set_state(GeneratePicState.idle)
 
-    print(result)
+    result = generate_pic(prompt, data['model'])
 
     if isinstance(result, list):
         result = result[0]
-
-    await bot.delete_message(chat_id=message.chat.id, message_id=ret.message_id)
-    await bot.send_photo(message.chat.id, photo=result)
-    await bot.send_message(message.from_user.id, text="Для продолжения генерации выберете модель", reply_markup=GENERATION_MENU)
-    await state.set_state(GeneratePicState.idle)
+        await bot.delete_message(chat_id=message.chat.id, message_id=ret.message_id)
+        await bot.send_photo(message.chat.id, photo=result)
+        await bot.send_message(message.from_user.id, text="Для продолжения генерации выберете модель", reply_markup=GENERATION_MENU)
+        await state.set_state(GeneratePicState.idle)
+    else:
+        await bot.delete_message(chat_id=message.chat.id, message_id=ret.message_id)
+        await bot.send_message(message.from_user.id, text="Такое генерировать запрешено", reply_markup=GENERATION_MENU)
+        await state.set_state(GeneratePicState.idle)
