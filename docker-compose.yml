@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    volumes:
+      - .:/bot
+    ports:
+      - "127.0.0.1:30:8000"
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://postgres:password@db/postgres
+      - API_TOKEN=7222883821:AAFsFaEL5ujzubec2-vsFwrM9Z3rDf9wqWQ
+      - REPLICATE_API_TOKEN=r8_N6Ad414PZRooZDqtrJWkkLfMHr2YMXi35fJ1d
+    command: >
+      poetry run python bot/main.py
+    depends_on:
+      - db
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data:
