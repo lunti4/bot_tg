@@ -9,10 +9,8 @@ services:
       - "127.0.0.1:30:8000"
     environment:
       - DATABASE_URL=postgresql+asyncpg://postgres:password@db/postgres
-      - API_TOKEN=7222883821:AAFsFaEL5ujzubec2-vsFwrM9Z3rDf9wqWQ
-      - REPLICATE_API_TOKEN=r8_AmFw4aAYBwIeLvdX8vh7VgoMDTvia7b1jZpYk
     command: >
-      poetry run python bot/main.py
+      bash -c  "export $(cat .env | xargs) && poetry run python bot/main.py"
     depends_on:
       - db
   db:
