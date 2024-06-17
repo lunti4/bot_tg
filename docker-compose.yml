@@ -10,7 +10,7 @@ services:
     environment:
       - DATABASE_URL=postgresql+asyncpg://postgres:password@db/postgres
       - API_TOKEN=7222883821:AAFsFaEL5ujzubec2-vsFwrM9Z3rDf9wqWQ
-      - REPLICATE_API_TOKEN=r8_N6Ad414PZRooZDqtrJWkkLfMHr2YMXi35fJ1d
+      - REPLICATE_API_TOKEN=r8_AmFw4aAYBwIeLvdX8vh7VgoMDTvia7b1jZpYk
     command: >
       poetry run python bot/main.py
     depends_on:
